@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
+
 using ConditonalLinqQueryEngine.Extensions;
 using ConditonalLinqQueryEngine.Models;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 
 namespace ConditonalLinqQueryEngine.Pages
 {
@@ -65,11 +63,11 @@ namespace ConditonalLinqQueryEngine.Pages
             BoardGameRepository repo = new BoardGameRepository();
             Results = repo.GetAll();
 
-            Results = Results.If(SearchByGameType, q => q.Where(x => x.GameType == SelectedGameType))
-                             .If(SearchByMinAge, q => q.Where(x => x.SuggestedMinimumAge >= SelectedMinAge))
-                             .If(SearchByPlayTime, q=>q.Where(x => x.AverageGameTimeMinutes >= SelectedPlayTime))
-                             .If(SearchByMaxPlayers, q => q.Where(x => x.MaxPlayers == SelectedMaxPlayers))
-                             .If(SearchByPlayType, q => q.Where(x => x.PlayType == SelectedPlayType))
+            Results = Results.WhereIf(SearchByGameType, x => x.GameType == SelectedGameType)
+                             .WhereIf(SearchByMinAge, x => x.SuggestedMinimumAge >= SelectedMinAge)
+                             .WhereIf(SearchByPlayTime, x => x.AverageGameTimeMinutes >= SelectedPlayTime)
+                             .WhereIf(SearchByMaxPlayers,x => x.MaxPlayers == SelectedMaxPlayers)
+                             .WhereIf(SearchByPlayType, x => x.PlayType == SelectedPlayType)
                              .ToList();
         }
     }
