@@ -33,7 +33,7 @@ jobs:
       run:  dotnet publish -o app
       
     - name: Create symbolic link DockerFile
-      run: ln -s conditionallinqqueryengine/Dockerfile Dockerfile
+      run: ln -s ConditonalLinqQueryEngine/Dockerfile Dockerfile
       
     - name: herokuPush
       uses: actions/heroku@master
