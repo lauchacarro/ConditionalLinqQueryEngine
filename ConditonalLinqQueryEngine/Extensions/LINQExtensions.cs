@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
+using System.Linq.Expressions;
 
 namespace ConditonalLinqQueryEngine.Extensions
 {
@@ -35,6 +37,16 @@ namespace ConditonalLinqQueryEngine.Extensions
         public static IEnumerable<T> TakeIf<T>(this IEnumerable<T> query, bool should, int count)
         {
             return query.If(should, q => q.Take(count));
+        }
+
+        public static IQueryable<T> IncludeIf<T, TProperty>(this IQueryable<T> query, bool should, Expression<Func<T, TProperty>> path)
+        {
+            return query.If(should, q => q.Include(path));
+        }
+
+        public static IQueryable<T> IncludeIf<T>(this IQueryable<T> query, bool should, string path)
+        {
+            return query.If(should, q => q.Include(path));
         }
     }
 }
